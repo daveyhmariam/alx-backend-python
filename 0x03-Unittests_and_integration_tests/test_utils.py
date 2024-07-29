@@ -35,16 +35,22 @@ class TestAccessNestedMap(unittest.TestCase):
         with self.assertRaises(exception):
             utils.access_nested_map(nested_map, path)
 
-    class TestGetJson(unittest.TestCase):
-        """Tests the `get_json` function."""
-        @parameterized.expand([
-            ("http://example.com", {"payload": True}),
-            ("http://holberton.io", {"payload": False}),
-        ])
-        def test_get_json(self, url: str, payload: Dict):
-            att = {"json.return_value": payload}
-            with patch("requests.get", return_value=Mock(**att)) as req:
-                self.assertEqual(utils.get_json(url), payload)
+class TestGetJson(unittest.TestCase):
+    """Tests the `get_json` function."""
+    @parameterized.expand([
+        ("http://example.com", {"payload": True}),
+        ("http://holberton.io", {"payload": False}),
+    ])
+    def test_get_json(
+            self,
+            test_url: str,
+            test_payload: Dict,
+            ) -> None:
+        """Tests `get_json`'s output."""
+        attrs = {'json.return_value': test_payload}
+        with patch("requests.get", return_value=Mock(**attrs)) as req_get:
+            self.assertEqual(utils.get_json(test_url), test_payload)
+            req_get.assert_called_once_with(test_url)
 
 
 class TestMemoize(unittest.TestCase):
