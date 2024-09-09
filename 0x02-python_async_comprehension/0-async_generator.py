@@ -1,4 +1,4 @@
-#!/usr/bin/env pyrthon3
+#!/usr/bin/env python3
 """Asyncronous comprehension
 """
 
